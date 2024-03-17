@@ -2,14 +2,9 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 
-import subjectRoute from "./routes/subjectRouter";
-
-import { protect } from "./modules/auth";
 import { createNewUser, signin } from "./middleware/user";
 import { body } from "express-validator";
 import { inputHandler } from "./handlers/inputHandler";
-import scheduleRoute from "./routes/scheduleRouter";
-import updateRoute from "./routes/updateRouter";
 
 const app = express();
 
