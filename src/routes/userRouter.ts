@@ -7,10 +7,10 @@ const userRouter = Router();
 
 userRouter.get(
   "/login",
-  body("username").isString(),
+  body("mail").isString(),
   body("password").isString(),
   inputHandler,
-  user.signin,
+  user.signin
 );
 
 userRouter.post(
@@ -19,7 +19,7 @@ userRouter.post(
   body("mail").isString(),
   body("password").isString(),
   inputHandler,
-  user.createNewUser,
+  user.createNewUser
 );
 
 userRouter.get("/:email", user.getUser);

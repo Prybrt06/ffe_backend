@@ -2,6 +2,13 @@ import prisma from "../db";
 
 export const createTask = async (req, res) => {
   try {
+    if (!req.body.title) {
+      res.status(400).json({ message: "Task name is required" });
+    }
+    if (!req.body.description) {
+      res.status(400).json({ message: "Description is required" });
+    }
+
     const task = await prisma.task.create({
       data: {
         title: req.body.title,
@@ -36,10 +43,19 @@ export const getAllTask = async (req, res) => {
   }
 };
 
-export const getTask = async (req, res) => {
+export const deleteTask = async (req, res) => {
   try {
     const taskId = req.params.id;
-    const task = await prisma.task.findUnique({
+    let task = await prisma.task.findFirst({
+      where: {
+        id: taskId,
+      },
+    });
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    task = await prisma.task.delete({
       where: {
         id: taskId,
       },
