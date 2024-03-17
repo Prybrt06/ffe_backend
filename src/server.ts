@@ -2,9 +2,8 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 
-import { createNewUser, signin } from "./middleware/user";
-import { body } from "express-validator";
-import { inputHandler } from "./handlers/inputHandler";
+import userRouter from "./routes/userRouter";
+import taskRouter from "./routes/taskRoute";
 
 const app = express();
 
@@ -17,22 +16,9 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "working fine" });
 });
 
-app.post(
-  "/user/sign-up",
-  body("username").isString(),
-  body("mail").isString(),
-  body("password").isString(),
-  inputHandler,
-  createNewUser
-);
+app.use("/user", userRouter);
 
-app.post(
-  "/user/login",
-  body("username").isString(),
-  body("password").isString(),
-  inputHandler,
-  signin
-);
+app.use("/task", taskRouter);
 
 app.use((err, req, res, next) => {
   if (err.type == "auth") {
